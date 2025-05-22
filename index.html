@@ -142,11 +142,19 @@
 
     function sendDrawing() {
       const dataUrl = canvas.toDataURL("image/png");
+      
+      // Если это WebApp в Telegram
       if (window.Telegram && Telegram.WebApp) {
+        // Отправляем данные в чат
         Telegram.WebApp.sendData(dataUrl);
         Telegram.WebApp.close();
       } else {
-        alert("Telegram WebApp API не доступен.");
+        // Для отладки вне Telegram
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        link.download = 'drawing.png';
+        link.click();
+        alert("Ссылка на рисунок скопирована. Отправьте ее в чат бота.");
       }
     }
   </script>
